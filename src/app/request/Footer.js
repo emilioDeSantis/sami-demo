@@ -36,7 +36,7 @@ const Footer = ({ step }) => {
                 left: "0", // Ensures the footer spans the entire width of the viewport
                 backgroundColor: "#fff", // Optional: adds a background color for visibility against page content
                 boxShadow: "0 -2px 5px rgba(0,0,0,0.1)", // Optional: adds a slight shadow for depth
-                zIndex: 1000, // Ensures the footer is above other content
+                zIndex: 100, // Ensures the footer is above other content
             }}
         >
             {instructions}

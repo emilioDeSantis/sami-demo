@@ -73,7 +73,7 @@ function LocationSelector({ location, setLocation, step, setStep }) {
                     defaultOptions
                     onChange={handleInputChange}
                     onFocus={handleFocus} // Handle focus here
-                    placeholder="Enter an address"
+                    placeholder="Enter event address"
                     styles={{
                         control: (base) => ({
                             ...base,
@@ -103,20 +103,21 @@ function LocationSelector({ location, setLocation, step, setStep }) {
                     >
                         {location && (
                             <Marker
-                                longitude={location.longitude}
-                                latitude={location.latitude}
-                                offsetLeft={-20}
-                                offsetTop={-10}
+                            longitude={location.longitude}
+                            latitude={location.latitude}
+                        >
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    transform: 'translate(-50%, -26px)', // Centers the top of the SVG over the location point
+                                }}
                             >
-                                <div
-                                    style={{
-                                        backgroundColor: "red",
-                                        width: "20px",
-                                        height: "20px",
-                                        borderRadius: "50%",
-                                    }}
-                                ></div>
-                            </Marker>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{ height: '30px', }}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                </svg>
+                            </div>
+                        </Marker>
                         )}
                     </Map>
                 )}

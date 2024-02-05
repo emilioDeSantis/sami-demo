@@ -17,8 +17,9 @@ import GuestsSelector from "./GuestsSelector";
 import ScrollToContainer from "./ScrollToContainer";
 import Footer from "./Footer";
 
-export const color = "#991133";
+export const color = "#992255";
 export const transition = "0.5s";
+export const successColor = "#00a066";
 
 const Calendar = () => {
     const [step, setStep] = useState(0);
@@ -27,6 +28,8 @@ const Calendar = () => {
     const [hour, setHour] = useState(null);
     const [guests, setGuests] = useState(null);
     const [location, setLocation] = useState(null);
+
+    const [processing, setProcessing] = useState(false);
 
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
@@ -41,11 +44,14 @@ const Calendar = () => {
     };
 
     const handleSubmitPopup = (e) => {
-        e.preventDefault();
-        // Handle the form submission logic here
-        console.log("Form submitted");
-        setStep(6);
-        // Potentially move to a new step or close the popup
+        e.preventDefault(); // Prevent default form submission behavior
+        setProcessing(true); // Change the button state to processing
+        setTimeout(() => {
+            // Delay the submission logic by 1 second
+            console.log("Form submitted");
+            setStep(6);
+            setProcessing(false); // Reset the button state after processing
+        }, 1600); // Delay the submission logic by 1 second
     };
 
     const handleRequestCall = () => {
@@ -195,6 +201,8 @@ const Calendar = () => {
                     height: "100rem",
                 }}
             />
+
+            <Footer step={step} />
             {step === 5 && (
                 <div
                     onClick={handleClosePopup}
@@ -207,7 +215,7 @@ const Calendar = () => {
                         backgroundColor: "rgba(0, 0, 0, 0.1)",
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "center",
+                        alignItems: "flex-start",
                         zIndex: 100,
                     }}
                 >
@@ -218,7 +226,7 @@ const Calendar = () => {
                             paddingInline: "1.6rem",
                             paddingBlock: "2rem",
                             marginInline: "1rem",
-
+                            marginTop: "3rem",
                             display: "flex",
                             flexDirection: "column",
                             boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
@@ -270,7 +278,7 @@ const Calendar = () => {
                                     display: "flex",
                                     gap: "1rem",
                                     width: "100%",
-                                    marginTop: "0.4rem",
+                                    marginTop: "1rem",
                                 }}
                             >
                                 <button
@@ -322,25 +330,14 @@ const Calendar = () => {
                                         color: "white",
                                         border: "none",
                                         fontSize: "1rem",
+                                        opacity: processing ? 0.5 : 1,
                                     }}
                                     type="submit"
+                                    disabled={processing}
                                 >
-                                    Submit Request
-                                    {/* <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                        style={{ width: "1.3rem",}}
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25"
-                                        />
-                                    </svg> */}
+                                    {processing
+                                        ? "Processing request..."
+                                        : "Submit request"}
                                 </button>
                             </div>
                         </form>
@@ -360,101 +357,134 @@ const Calendar = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        zIndex: 100,
+                        zIndex: 200,
                     }}
                 >
                     <div
                         onClick={(e) => e.stopPropagation()} // Prevent click from bubbling to the background
                         style={{
-                            backgroundColor: "#fff",
+                            background: successColor,
                             paddingInline: "1.6rem",
                             paddingBlock: "2rem",
                             marginInline: "1rem",
-
                             display: "flex",
                             flexDirection: "column",
+                            alignItems: "flex-start",
                             boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
+                            color: "white",
+                            borderRadius: "12px",
                         }}
                     >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={2}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                            style={{
+                                height: "6rem",
+                                background: "white",
+                                color: successColor,
+                                borderRadius: "1000px",
+                                width: "6rem",
+                                padding: "0.6rem",
+                            }}
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="m4.5 12.75 6 6 9-13.5"
+                            />
+                        </svg>
+
                         <h2
                             style={{
-                                fontSize: "1.2rem",
-                                fontWeight: 600,
-                                marginBottom: "1.6rem",
+                                fontSize: "1.6rem",
+                                fontWeight: 800,
+                                marginTop: "2.4rem",
                             }}
                         >
                             Submission Confirmed!
                         </h2>
-                        <p>Your request has been submitted successfully.</p>
-
-                        <p>{`A confirmation email has been sent to ${email} and you will hear from Rico Valenti within 24 hours.`}</p>
-                        <div
+                        <p
                             style={{
-                                display: "flex",
-                                gap: "1rem",
-                                width: "100%",
-                                marginTop: "0.4rem",
+                                fontSize: "1.2rem",
+                                marginTop: "1rem",
                             }}
                         >
-                            <button
+                            Your booking request has been submitted
+                            successfully.
+                        </p>
+
+                        <p
+                            style={{
+                                fontSize: "1rem",
+                                marginTop: "3rem",
+                            }}
+                        >{`A confirmation email has been sent to ${email} and you will hear from Rico Valenti within 24 hours.`}</p>
+
+                        <button
+                            onClick={handleRequestCall}
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: "100%",
+                                paddingBlock: "0.8rem",
+                                gap: "0.8rem",
+                                borderRadius: "12px",
+                                background: "white",
+                                color: successColor,
+                                border: "none",
+                                fontSize: "1.2rem",
+                                fontWeight: 600,
+                                marginTop: "2rem",
+                            }}
+                        >
+                            Request a Phone Call
+                        </button>
+                        <button
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                paddingInline: "1rem",
+                                paddingBlock: "0.8rem",
+                                gap: "0.8rem",
+                                borderRadius: "12px",
+                                background: "transparent",
+                                color: "white",
+                                fontSize: "1.2rem",
+                                border: "none",
+                                marginTop: "1rem",
+                                fontWeight: 600,
+                            }}
+                            onClick={handleClosePopup}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
                                 style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    paddingInline: "1rem",
-                                    paddingBlock: "0.3rem",
-                                    gap: "0.8rem",
-                                    borderRadius: "5px",
-                                    border: `1px solid ${color}`,
-                                    background: "transparent",
-                                    color: color,
-                                    fontSize: "1rem",
-                                }}
-                                onClick={handleClosePopup}
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                    style={{
-                                        width: "1.3rem",
-                                        marginInline: "-0.6rem",
-                                    }}
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M15.75 19.5 8.25 12l7.5-7.5"
-                                    />
-                                </svg>
-                                done
-                            </button>
-                            <button
-                                onClick={handleRequestCall}
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100%",
-                                    paddingBlock: "0.3rem",
-                                    gap: "0.8rem",
-                                    borderRadius: "5px",
-                                    background: color,
-                                    color: "white",
-                                    border: "none",
-                                    fontSize: "1rem",
+                                    width: "1.3rem",
+                                    marginInline: "-0.6rem",
                                 }}
                             >
-                                Request a Phone Call
-                            </button>
-                        </div>
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M15.75 19.5 8.25 12l7.5-7.5"
+                                />
+                            </svg>
+                            done
+                        </button>
                     </div>
                 </div>
             )}
-            <Footer step={step} />
         </div>
     );
 };
