@@ -103,7 +103,7 @@ const PortfolioItem = ({
             >
                 {description}
             </p>
-            <div
+            {/* <div
                 style={{
                     display: "flex",
                     paddingInline: "2rem",
@@ -175,11 +175,11 @@ const PortfolioItem = ({
                         />
                     </svg>
                 </button>
-            </div>
+            </div> */}
             <div style={{
                 width: "100%",
                 paddingInline: "2rem",
-                marginTop: "1rem",
+                marginTop: "3rem",
             }}>
             <div style={{
                 background: color,

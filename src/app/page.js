@@ -26,6 +26,20 @@ export default function Home() {
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
+          <div className="demo" style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "rgba(0,0,0)",
+            color: "white",
+            zIndex: 2000,
+            fontSize: "2rem",
+            padding: "2rem",
+          }}>This demo is for mobile only please view site on a phone</div>
             <div
                 style={{
                     position: "relative",
